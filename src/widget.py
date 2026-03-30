@@ -13,6 +13,7 @@ def mask_account_card(data: str) -> str:
 
     return f"{name} {get_mask_card_number(number)}"
 
+
 def get_date(date_str: str) -> str:
     """Преобразует дату в формат ДД.ММ.ГГГГ."""
 
