@@ -1,5 +1,3 @@
-
-
 def get_mask_card_number(card_number: str) -> str:
     """Маскирует номер банковской карты в формате XXXX XX** **** XXXX"""
     first_six = card_number[:6]

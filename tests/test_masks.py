@@ -1,7 +1,7 @@
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def test_get_mask_card_number():
+def test_get_mask_card_number() -> None:
     # Пример карты
     card_number = "7000792289606361"
     expected = "7000 79** **** 6361"
@@ -13,7 +13,7 @@ def test_get_mask_card_number():
     assert get_mask_card_number(card_number2) == expected2
 
 
-def test_get_mask_account():
+def test_get_mask_account() -> None:
     # Пример счета
     account_number = "73654108430135874305"
     expected = "**4305"
