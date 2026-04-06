@@ -15,5 +15,5 @@ def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
 
     :param data: список словарей с банковскими операциями
     :param reverse: порядок сортировки (True — по убыванию, False — по возрастанию)
-    :return: отсортированный список словарей """
+    :return: отсортированный список словарей  """
     return sorted(data, key=lambda x: x.get("date"), reverse=reverse)
