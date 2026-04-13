@@ -1,11 +1,13 @@
 # Bank Operations Widget
 
 ## Описание
+
 Проект предназначен для обработки банковских операций клиента.
 
 Основные функции проекта:
-- фильтрация операций по статусу
-- сортировка операций по дате
+
+* фильтрация операций по статусу
+* сортировка операций по дате
 
 ---
 
@@ -15,10 +17,15 @@
 
 Фильтрует список банковских операций по значению ключа `state`.
 
-#### Пример:
+Параметры:
 
-```python
-from src.processing.processing import filter_by_state
+* data — список словарей с операциями
+* state — статус операции (по умолчанию "EXECUTED")
+
+Пример:
+
+```
+from src.processing import filter_by_state
 
 data = [
     {"id": 1, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -27,3 +34,72 @@ data = [
 
 result = filter_by_state(data, "EXECUTED")
 print(result)
+```
+
+---
+
+### sort_by_date
+
+Сортирует список банковских операций по дате.
+
+Параметры:
+
+* data — список словарей с операциями
+* reverse — порядок сортировки:
+  True — по убыванию (по умолчанию)
+  False — по возрастанию
+
+Пример:
+
+```
+from src.processing import sort_by_date
+
+data = [
+    {"id": 1, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+    {"id": 2, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+]
+
+result = sort_by_date(data)
+print(result)
+```
+
+---
+
+## Установка
+
+```
+git clone https://github.com/Gellert96/PythonProject3.git
+cd PythonProject3
+```
+
+---
+
+## Использование
+
+```
+from src.processing import filter_by_state, sort_by_date
+
+data = [
+    {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+    {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+]
+
+filtered = filter_by_state(data, "EXECUTED")
+sorted_data = sort_by_date(data)
+
+print(filtered)
+print(sorted_data)
+```
+
+---
+
+## Структура проекта
+
+```
+src/
+  processing.py
+  masks.py
+
+main.py
+README.md
+```
