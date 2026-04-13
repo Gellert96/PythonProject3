@@ -62,8 +62,14 @@ data = [
 result = sort_by_date(data)
 print(result)
 ```
+### mask_account_card
 
----
+Маскирует номер карты или счета.
+
+Пример:
+
+```python
+from src.masks import get_mask_card_number, get_mask_account
 
 ## Установка
 
@@ -103,3 +109,15 @@ src/
 main.py
 README.md
 ```
+
+# ТЕСТИРОВАНИЕ 
+
+```md id="tests"
+## Тестирование
+
+Проект покрыт тестами с использованием pytest.
+
+### Запуск тестов:
+
+```bash
+pytest
