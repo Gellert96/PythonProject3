@@ -123,3 +123,14 @@ README.md
 
 ```bash
 pytest
+
+## Generators module
+
+### filter_by_currency
+Фильтрует транзакции по валюте.
+
+### transaction_descriptions
+Возвращает описания транзакций.
+
+### card_number_generator
+Генерирует номера карт в формате XXXX XXXX XXXX XXXX.
