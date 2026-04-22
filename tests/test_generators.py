@@ -26,6 +26,18 @@ def test_filter_by_currency(sample_transactions):
     assert len(result) == 1
     assert result[0]["description"] == "USD transaction"
 
+    @pytest.mark.parametrize(
+        "currency, expected_len",
+        [
+            ("USD", 2),
+            ("RUB", 1),
+            ("EUR", 0),
+        ],
+    )
+    def test_filter_by_currency_param(transactions, currency, expected_len):
+        result = list(filter_by_currency(transactions, currency))
+        assert len(result) == expected_len
+
 
 def test_filter_no_results(sample_transactions):
     result = list(filter_by_currency(sample_transactions, "EUR"))
@@ -40,6 +52,24 @@ def test_empty_transactions():
 def test_transaction_descriptions(sample_transactions):
     result = list(transaction_descriptions(sample_transactions))
     assert result == ["USD transaction", "RUB transaction"]
+
+    @pytest.mark.parametrize(
+        "input_data, expected",
+        [
+            (
+                    [{"description": "A"}, {"description": "B"}],
+                    ["A", "B"],
+            ),
+            (
+                    [],
+                    [],
+            ),
+        ],
+    )
+    def test_transaction_descriptions_param(input_data, expected):
+        result = list(transaction_descriptions(input_data))
+
+        assert result == expected
 
 
 def test_transaction_descriptions_empty():
@@ -64,3 +94,4 @@ def test_card_number_format():
 
     assert len(number) == 19
     assert number.count(" ") == 3
+
