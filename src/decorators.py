@@ -3,9 +3,24 @@ from functools import wraps
 
 
 def log(filename: str | None = None) -> Callable:
+    """
+    Декоратор для логирования работы функции.
+
+    Логирует:
+    - успешное выполнение функции (имя функции и статус ok)
+    - ошибки (тип ошибки и входные параметры)
+
+    Параметры:
+    filename: имя файла для записи логов.
+              Если не указан, вывод осуществляется в консоль.
+    """
+
     def decorator(func: Callable) -> Callable:
+        """Декоратор для конкретной функции."""
+
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Обёртка, выполняющая логирование вызова функции."""
             try:
                 result = func(*args, **kwargs)
 
