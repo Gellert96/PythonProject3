@@ -1,8 +1,8 @@
-from typing import Callable, Any
 from functools import wraps
+from typing import Any, Callable
 
 
-def log(filename: str | None = None) -> Callable:
+def log(filename: str | None = None) -> Callable[..., Any]:
     """
     Декоратор для логирования работы функции.
 
@@ -15,7 +15,7 @@ def log(filename: str | None = None) -> Callable:
               Если не указан, вывод осуществляется в консоль.
     """
 
-    def decorator(func: Callable) -> Callable:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         """Декоратор для конкретной функции."""
 
         @wraps(func)
