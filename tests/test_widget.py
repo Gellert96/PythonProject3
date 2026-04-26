@@ -6,6 +6,7 @@ from src.widget import get_date, mask_account_card
 # mask_account_card
 # -------------------------
 
+
 def test_mask_card():
     result = mask_account_card("Visa Platinum 7000792289606361")
     assert result.startswith("Visa Platinum")

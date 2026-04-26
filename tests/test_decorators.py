@@ -1,4 +1,4 @@
-import os
+
 
 import pytest
 
@@ -7,6 +7,7 @@ from src.decorators import log
 # =========================
 # ТЕСТ УСПЕШНОГО ВЫЗОВА (консоль)
 # =========================
+
 
 def test_log_success_console(capsys):
     @log()
