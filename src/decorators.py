@@ -1,11 +1,26 @@
-from typing import Callable, Any
 from functools import wraps
+from typing import Any, Callable
 
 
-def log(filename: str | None = None) -> Callable:
-    def decorator(func: Callable) -> Callable:
+def log(filename: str | None = None) -> Callable[..., Any]:
+    """
+    Декоратор для логирования работы функции.
+
+    Логирует:
+    - успешное выполнение функции (имя функции и статус ok)
+    - ошибки (тип ошибки и входные параметры)
+
+    Параметры:
+    filename: имя файла для записи логов.
+              Если не указан, вывод осуществляется в консоль.
+    """
+
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        """Декоратор для конкретной функции."""
+
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Обёртка, выполняющая логирование вызова функции."""
             try:
                 result = func(*args, **kwargs)
 
