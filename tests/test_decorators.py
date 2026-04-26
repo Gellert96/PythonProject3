@@ -4,7 +4,6 @@ import pytest
 
 from src.decorators import log
 
-
 # =========================
 # ТЕСТ УСПЕШНОГО ВЫЗОВА (консоль)
 # =========================
@@ -42,6 +41,7 @@ def test_log_error_console(capsys):
 # =========================
 # ТЕСТ ЗАПИСИ В ФАЙЛ (успех)
 # =========================
+
 
 def test_log_success_file(tmp_path):
     log_file = tmp_path / "test.log"

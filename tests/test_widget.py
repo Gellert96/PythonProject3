@@ -31,6 +31,7 @@ def test_mask_card_param(input_data):
 # get_date
 # -------------------------
 
+
 def test_get_date_normal():
     assert get_date("2019-07-03T18:35:29.512364") == "03.07.2019"
 
