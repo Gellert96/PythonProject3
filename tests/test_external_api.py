@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+
 from src.external_api import convert_to_rub
 
 
@@ -9,7 +10,7 @@ def test_usd_conversion(mock_getenv, mock_get):
     mock_getenv.return_value = "test_api_key"
 
     mock_get.return_value.json.return_value = {
-        "rates": {"RUB": 100}
+        "result": 1000.0
     }
 
     transaction = {
