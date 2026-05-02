@@ -7,11 +7,11 @@ logger = logging.getLogger(__name__)
 
 file_handler = logging.FileHandler("logs/utils.log", mode="w", encoding="utf-8")
 
-formatter = logging.Formatter(
+file_formatter = logging.Formatter(
     "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
 )
 
-file_handler.setFormatter(formatter)
+file_handler.setFormatter(file_formatter)
 
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
@@ -30,7 +30,6 @@ def load_operations(file_path: str) -> list[dict[str, Any]]:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
-            # проверка пустого файла
             if not content.strip():
                 logger.warning("Файл пустой")
                 return []
@@ -50,4 +49,8 @@ def load_operations(file_path: str) -> list[dict[str, Any]]:
 
     except json.JSONDecodeError:
         logger.error("Ошибка декодирования JSON")
+        return []
+
+    except Exception as e:
+        logger.error(f"Неизвестная ошибка: {e}")
         return []
