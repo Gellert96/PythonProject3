@@ -168,3 +168,10 @@ add ok
 - XLSX (Excel)
 
 Для работы с CSV и Excel используется библиотека pandas.
+
+Реализованы функции:
+
+- `read_csv_transactions`
+- `read_excel_transactions`
+
+Для новых функций написаны тесты с использованием pytest, mock и patch.
