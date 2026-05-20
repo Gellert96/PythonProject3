@@ -117,9 +117,20 @@ def main() -> None:
 
         print(item.get("description", ""))
 
-        amount = item["operationAmount"]["amount"]
+        from_info = item.get("from", "")
+        to_info = item.get("to", "")
 
-        currency = item["operationAmount"]["currency"]["code"]
+        if from_info:
+            print(f"{from_info} -> {to_info}")
+        else:
+            print(to_info)
+
+        if "operationAmount" in item:
+            amount = item["operationAmount"]["amount"]
+            currency = item["operationAmount"]["currency"]["code"]
+        else:
+            amount = item.get("amount", "")
+            currency = item.get("currency_code", "")
 
         print(f"Сумма: {amount} {currency}\n")
 

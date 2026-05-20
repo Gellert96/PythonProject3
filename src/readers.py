@@ -7,9 +7,12 @@ def read_csv(file_path: str) -> list[dict[str, Any]]:
     """
     Считывает транзакции из CSV-файла.
     """
-    data = pd.read_csv(file_path)
+    data = pd.read_csv(file_path, sep=";")
 
-    return cast(list[dict[str, Any]], data.to_dict(orient="records"))
+    return cast(
+        list[dict[str, Any]],
+        data.to_dict(orient="records"),
+    )
 
 
 def read_excel(file_path: str) -> list[dict[str, Any]]:
@@ -18,4 +21,7 @@ def read_excel(file_path: str) -> list[dict[str, Any]]:
     """
     data = pd.read_excel(file_path)
 
-    return cast(list[dict[str, Any]], data.to_dict(orient="records"))
+    return cast(
+        list[dict[str, Any]],
+        data.to_dict(orient="records"),
+    )
