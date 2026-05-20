@@ -56,3 +56,24 @@ def process_bank_operations(
         category: counter.get(category, 0)
         for category in categories
     }
+
+
+def filter_by_currency(
+    data: list[dict[str, Any]],
+    currency: str = "RUB",
+) -> list[dict[str, Any]]:
+    """
+    Фильтрует операции по валюте.
+
+    :param data: список операций
+    :param currency: код валюты
+    :return: отфильтрованный список
+    """
+
+    return [
+        item
+        for item in data
+        if item.get("operationAmount", {})
+        .get("currency", {})
+        .get("code") == currency
+    ]
