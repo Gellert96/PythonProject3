@@ -1,26 +1,129 @@
-from src.processing import process_bank_search
+from src.processing import (
+    filter_by_state,
+    process_bank_search,
+    sort_by_date,
+)
+from src.readers import (
+    read_csv,
+    read_excel,
+)
 from src.utils import load_operations
 
 
 def main() -> None:
     """
-    Основная функция программы.
+    Основная логика программы.
     """
-    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
 
-    data = load_operations("data/operations.json")
+    print(
+        "Привет! Добро пожаловать в программу работы "
+        "с банковскими транзакциями."
+    )
 
-    search = input("Введите строку для поиска: ")
+    print(
+        "Выберите необходимый пункт меню:\n"
+        "1. Получить информацию о транзакциях из JSON-файла\n"
+        "2. Получить информацию о транзакциях из CSV-файла\n"
+        "3. Получить информацию о транзакциях из XLSX-файла"
+    )
 
-    result = process_bank_search(data, search)
+    user_choice = input()
 
-    if result:
-        print(f"Найдено операций: {len(result)}")
+    if user_choice == "1":
+        print("Для обработки выбран JSON-файл.")
+        data = load_operations("data/operations.json")
 
-        for operation in result:
-            print(operation.get("description"))
+    elif user_choice == "2":
+        print("Для обработки выбран CSV-файл.")
+        data = read_csv("data/transactions.csv")
+
+    elif user_choice == "3":
+        print("Для обработки выбран XLSX-файл.")
+        data = read_excel("data/transactions_excel.xlsx")
+
     else:
-        print("Не найдено ни одной транзакции")
+        print("Неверный пункт меню")
+        return
+
+    valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
+
+    while True:
+        print(
+            "Введите статус, по которому необходимо "
+            "выполнить фильтрацию.\n"
+            "Доступные для фильтровки статусы: "
+            "EXECUTED, CANCELED, PENDING"
+        )
+
+        status = input().upper()
+
+        if status in valid_statuses:
+            break
+
+        print(f'Статус операции "{status}" недоступен.')
+
+    data = filter_by_state(data, status)
+
+    print(f'Операции отфильтрованы по статусу "{status}"')
+
+    print("Отсортировать операции по дате? Да/Нет")
+
+    sort_answer = input().lower()
+
+    if sort_answer == "да":
+        print("Отсортировать по возрастанию или по убыванию?")
+
+        order = input().lower()
+
+        reverse = order != "по возрастанию"
+
+        data = sort_by_date(data, reverse=reverse)
+
+    print("Выводить только рублевые транзакции? Да/Нет")
+
+    rub_only = input().lower()
+
+    if rub_only == "да":
+        data = [
+            item for item in data
+            if item["operationAmount"]["currency"]["code"] == "RUB"
+        ]
+
+    print(
+        "Отфильтровать список транзакций "
+        "по определенному слову в описании? Да/Нет"
+    )
+
+    search_answer = input().lower()
+
+    if search_answer == "да":
+        print("Введите строку для поиска:")
+
+        search = input()
+
+        data = process_bank_search(data, search)
+
+    if not data:
+        print(
+            "Не найдено ни одной транзакции, "
+            "подходящей под ваши условия фильтрации"
+        )
+        return
+
+    print("Распечатываю итоговый список транзакций...\n")
+
+    print(f"Всего банковских операций в выборке: {len(data)}\n")
+
+    for item in data:
+        print(item.get("date", "")[:10])
+
+        print(item.get("description", ""))
+
+        amount = item["operationAmount"]["amount"]
+
+        currency = item["operationAmount"]["currency"]["code"]
+
+        print(f"Сумма: {amount} {currency}\n")
 
 
 if __name__ == "__main__":

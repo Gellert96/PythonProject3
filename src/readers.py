@@ -1,27 +1,21 @@
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 
 
-def read_csv_transactions(file_path: str) -> list[dict[str, Any]]:
+def read_csv(file_path: str) -> list[dict[str, Any]]:
     """
-    Считывает финансовые операции из CSV-файла.
-
-    :param file_path: путь к CSV-файлу
-    :return: список словарей с транзакциями
+    Считывает транзакции из CSV-файла.
     """
     data = pd.read_csv(file_path)
 
-    return data.to_dict(orient="records")  # type: ignore[return-value]
+    return cast(list[dict[str, Any]], data.to_dict(orient="records"))
 
 
-def read_excel_transactions(file_path: str) -> list[dict[str, Any]]:
+def read_excel(file_path: str) -> list[dict[str, Any]]:
     """
-    Считывает финансовые операции из Excel-файла.
-
-    :param file_path: путь к Excel-файлу
-    :return: список словарей с транзакциями
+    Считывает транзакции из Excel-файла.
     """
     data = pd.read_excel(file_path)
 
-    return data.to_dict(orient="records")  # type: ignore[return-value]
+    return cast(list[dict[str, Any]], data.to_dict(orient="records"))

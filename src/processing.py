@@ -8,11 +8,7 @@ def filter_by_state(
     state: str = "EXECUTED"
 ) -> list[dict[str, Any]]:
     """
-    Фильтрует список словарей по значению ключа state.
-
-    :param data: список словарей с банковскими операциями
-    :param state: статус операции
-    :return: отфильтрованный список
+    Фильтрует список словарей по статусу.
     """
     return [item for item in data if item.get("state") == state]
 
@@ -22,11 +18,7 @@ def sort_by_date(
     reverse: bool = True
 ) -> list[dict[str, Any]]:
     """
-    Сортирует список словарей по дате.
-
-    :param data: список словарей
-    :param reverse: порядок сортировки
-    :return: отсортированный список
+    Сортирует операции по дате.
     """
     return sorted(data, key=lambda x: x["date"], reverse=reverse)
 
@@ -36,18 +28,13 @@ def process_bank_search(
     search: str
 ) -> list[dict[str, Any]]:
     """
-    Ищет операции по строке в description.
-
-    :param data: список транзакций
-    :param search: строка поиска
-    :return: список подходящих операций
+    Ищет операции по строке в описании.
     """
     pattern = re.compile(search, re.IGNORECASE)
 
     return [
-        operation
-        for operation in data
-        if pattern.search(operation.get("description", ""))
+        item for item in data
+        if pattern.search(item.get("description", ""))
     ]
 
 
@@ -57,15 +44,15 @@ def process_bank_operations(
 ) -> dict[str, int]:
     """
     Подсчитывает количество операций по категориям.
-
-    :param data: список транзакций
-    :param categories: список категорий
-    :return: словарь с количеством операций
     """
     descriptions = [
-        operation.get("description", "")
-        for operation in data
-        if operation.get("description", "") in categories
+        item.get("description", "")
+        for item in data
     ]
 
-    return dict(Counter(descriptions))
+    counter = Counter(descriptions)
+
+    return {
+        category: counter.get(category, 0)
+        for category in categories
+    }

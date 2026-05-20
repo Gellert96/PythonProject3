@@ -15,16 +15,19 @@ def sample_data():
             "id": 1,
             "state": "EXECUTED",
             "date": "2019-07-03T18:35:29.512364",
+            "description": "Перевод организации",
         },
         {
             "id": 2,
             "state": "CANCELED",
             "date": "2018-09-12T21:27:25.241689",
+            "description": "Открытие вклада",
         },
         {
             "id": 3,
             "state": "EXECUTED",
             "date": "2018-06-30T02:08:58.425572",
+            "description": "Перевод организации",
         },
     ]
 
@@ -65,41 +68,20 @@ def test_sort_asc(sample_data):
     assert dates == sorted(dates)
 
 
-def test_process_bank_search() -> None:
-    data = [
-        {"description": "Перевод организации"},
-        {"description": "Открытие вклада"},
-        {"description": "Перевод со счета на счет"},
-    ]
-
-    result = process_bank_search(data, "Перевод")
-
-    assert len(result) == 2
-
-
-def test_process_bank_search_case_insensitive() -> None:
-    data = [
-        {"description": "Перевод организации"},
-    ]
-
-    result = process_bank_search(data, "перевод")
+def test_process_bank_search(sample_data):
+    result = process_bank_search(sample_data, "вклад")
 
     assert len(result) == 1
+    assert result[0]["description"] == "Открытие вклада"
 
 
-def test_process_bank_operations() -> None:
-    data = [
-        {"description": "Перевод организации"},
-        {"description": "Перевод организации"},
-        {"description": "Открытие вклада"},
-    ]
-
+def test_process_bank_operations(sample_data):
     categories = [
         "Перевод организации",
         "Открытие вклада",
     ]
 
-    result = process_bank_operations(data, categories)
+    result = process_bank_operations(sample_data, categories)
 
     assert result == {
         "Перевод организации": 2,

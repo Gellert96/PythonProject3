@@ -2,14 +2,11 @@ from unittest.mock import patch
 
 import pandas as pd
 
-from src.readers import (
-    read_csv_transactions,
-    read_excel_transactions,
-)
+from src.readers import read_csv, read_excel
 
 
 @patch("src.readers.pd.read_csv")
-def test_read_csv_transactions(mock_read_csv):
+def test_read_csv(mock_read_csv):
     mock_data = pd.DataFrame(
         [
             {"id": 1, "amount": 100},
@@ -19,7 +16,7 @@ def test_read_csv_transactions(mock_read_csv):
 
     mock_read_csv.return_value = mock_data
 
-    result = read_csv_transactions("test.csv")
+    result = read_csv("test.csv")
 
     assert result == [
         {"id": 1, "amount": 100},
@@ -28,7 +25,7 @@ def test_read_csv_transactions(mock_read_csv):
 
 
 @patch("src.readers.pd.read_excel")
-def test_read_excel_transactions(mock_read_excel):
+def test_read_excel(mock_read_excel):
     mock_data = pd.DataFrame(
         [
             {"id": 1, "amount": 300},
@@ -38,7 +35,7 @@ def test_read_excel_transactions(mock_read_excel):
 
     mock_read_excel.return_value = mock_data
 
-    result = read_excel_transactions("test.xlsx")
+    result = read_excel("test.xlsx")
 
     assert result == [
         {"id": 1, "amount": 300},
