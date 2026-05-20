@@ -1,4 +1,5 @@
 from src.processing import (
+    filter_by_currency,
     filter_by_state,
     process_bank_search,
     sort_by_date,
@@ -84,10 +85,7 @@ def main() -> None:
     rub_only = input().lower()
 
     if rub_only == "да":
-        data = [
-            item for item in data
-            if item["operationAmount"]["currency"]["code"] == "RUB"
-        ]
+        data = filter_by_currency(data)
 
     print(
         "Отфильтровать список транзакций "
@@ -119,9 +117,20 @@ def main() -> None:
 
         print(item.get("description", ""))
 
-        amount = item["operationAmount"]["amount"]
+        from_info = item.get("from", "")
+        to_info = item.get("to", "")
 
-        currency = item["operationAmount"]["currency"]["code"]
+        if from_info:
+            print(f"{from_info} -> {to_info}")
+        else:
+            print(to_info)
+
+        if "operationAmount" in item:
+            amount = item["operationAmount"]["amount"]
+            currency = item["operationAmount"]["currency"]["code"]
+        else:
+            amount = item.get("amount", "")
+            currency = item.get("currency_code", "")
 
         print(f"Сумма: {amount} {currency}\n")
 
